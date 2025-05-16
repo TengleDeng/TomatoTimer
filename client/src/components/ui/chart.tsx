@@ -422,7 +422,10 @@ const BarChart = React.forwardRef<
             />
           )}
           {showTooltip && customTooltip && (
-            <ChartTooltip content={customTooltip} />
+            <ChartTooltip content={(props) => {
+              const CustomComponent = customTooltip;
+              return <CustomComponent {...props} />;
+            }} />
           )}
           {showLegend && (
             <ChartLegend
