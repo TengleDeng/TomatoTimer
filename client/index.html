@@ -1,27 +1,46 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no" />
-    <title>Pomodoro Timer</title>
-    <meta name="description" content="A customizable Pomodoro timer app to boost your productivity with work and break intervals and session tracking." />
-    <meta name="theme-color" content="#e05d52" />
+    <title>专注番茄钟</title>
+    <meta name="description" content="一个可自定义的番茄钟应用，通过工作和休息间隔以及会话跟踪提高您的工作效率。" />
+    <meta name="theme-color" content="#ef4444" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <link rel="manifest" href="/manifest.json" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@6.5.95/css/materialdesignicons.min.css">
     <!-- App icons -->
-    <link rel="icon" type="image/png" sizes="192x192" href="https://img.icons8.com/fluency/192/000000/tomato.png">
-    <link rel="apple-touch-icon" href="https://img.icons8.com/fluency/192/000000/tomato.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/assets/icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/assets/icon-512x512.png">
+    <link rel="apple-touch-icon" href="/assets/icon-192x192.png">
     <!-- Open Graph tags -->
-    <meta property="og:title" content="Pomodoro Timer" />
-    <meta property="og:description" content="Boost your productivity with customizable work and break intervals" />
+    <meta property="og:title" content="专注番茄钟" />
+    <meta property="og:description" content="一个可自定义的番茄钟应用，通过工作和休息间隔以及会话跟踪提高您的工作效率。" />
     <meta property="og:type" content="website" />
+    <!-- iOS specific meta tags -->
+    <meta name="apple-mobile-web-app-title" content="番茄钟">
+    <link rel="apple-touch-startup-image" href="/assets/icon-512x512.png">
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
     <!-- This is a replit script which adds a banner on the top of the page when opened in development mode outside the replit environment -->
     <script type="text/javascript" src="https://replit.com/public/js/replit-dev-banner.js"></script>
+    
+    <script>
+      // Register Service Worker for PWA support
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('/service-worker.js')
+            .then(function(registration) {
+              console.log('Service Worker registered with scope:', registration.scope);
+            })
+            .catch(function(error) {
+              console.error('Service Worker registration failed:', error);
+            });
+        });
+      }
+    </script>
   </body>
 </html>
