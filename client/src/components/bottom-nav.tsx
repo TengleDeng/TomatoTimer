@@ -5,9 +5,11 @@ import {
   BarChart2, 
   Settings as SettingsIcon 
 } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function BottomNav() {
   const [location] = useLocation();
+  const { t } = useLanguage();
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 bg-card dark:bg-card border-t border-border dark:border-border shadow-lg z-10">
@@ -15,25 +17,25 @@ export default function BottomNav() {
         <NavItem 
           href="/"
           icon={<Timer className="w-6 h-6" />}
-          label="Timer"
+          label={t('nav.timer')}
           isActive={location === "/"}
         />
         <NavItem 
           href="/tasks"
           icon={<CheckSquare className="w-6 h-6" />}
-          label="Tasks"
+          label={t('nav.tasks')}
           isActive={location === "/tasks"}
         />
         <NavItem 
           href="/stats"
           icon={<BarChart2 className="w-6 h-6" />}
-          label="Stats"
+          label={t('nav.stats')}
           isActive={location === "/stats"}
         />
         <NavItem 
           href="/settings"
           icon={<SettingsIcon className="w-6 h-6" />}
-          label="Settings"
+          label={t('nav.settings')}
           isActive={location === "/settings"}
         />
       </div>
