@@ -16,11 +16,14 @@ import { Slider } from "@/components/ui/slider";
 import { apiRequest } from "@/lib/queryClient";
 import { useTheme } from "@/hooks/use-theme";
 import { useToast } from "@/hooks/use-toast";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 export default function SettingsPage() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const { theme, setTheme } = useTheme();
+  const { language, setLanguage, t } = useLanguage();
   
   // Fetch user settings
   const { data: settings, isLoading } = useQuery<Settings>({
@@ -102,28 +105,28 @@ export default function SettingsPage() {
   };
 
   if (isLoading) {
-    return <div className="py-8 text-center">Loading settings...</div>;
+    return <div className="py-8 text-center">{t('app.loading')}</div>;
   }
 
   return (
     <>
       <header className="py-4">
-        <h1 className="text-2xl font-medium">Settings</h1>
+        <h1 className="text-2xl font-medium">{t('settings.title')}</h1>
       </header>
 
       <div className="grid gap-4 mb-8">
         <Card>
           <CardHeader>
-            <CardTitle>Timer Settings</CardTitle>
+            <CardTitle>{t('settings.title')}</CardTitle>
             <CardDescription>
-              Customize your work and break durations
+              {t('settings.workDuration')}
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
             <div className="space-y-2">
               <div className="flex justify-between">
-                <Label htmlFor="workDuration">Work Duration</Label>
-                <span>{formValues.workDuration} minutes</span>
+                <Label htmlFor="workDuration">{t('settings.workDuration')}</Label>
+                <span>{formValues.workDuration} {t('settings.minutes')}</span>
               </div>
               <Slider
                 id="workDuration"
@@ -137,8 +140,8 @@ export default function SettingsPage() {
 
             <div className="space-y-2">
               <div className="flex justify-between">
-                <Label htmlFor="breakDuration">Short Break Duration</Label>
-                <span>{formValues.breakDuration} minutes</span>
+                <Label htmlFor="breakDuration">{t('settings.breakDuration')}</Label>
+                <span>{formValues.breakDuration} {t('settings.minutes')}</span>
               </div>
               <Slider
                 id="breakDuration"
@@ -152,8 +155,8 @@ export default function SettingsPage() {
 
             <div className="space-y-2">
               <div className="flex justify-between">
-                <Label htmlFor="longBreakDuration">Long Break Duration</Label>
-                <span>{formValues.longBreakDuration} minutes</span>
+                <Label htmlFor="longBreakDuration">{t('settings.longBreakDuration')}</Label>
+                <span>{formValues.longBreakDuration} {t('settings.minutes')}</span>
               </div>
               <Slider
                 id="longBreakDuration"
@@ -167,8 +170,8 @@ export default function SettingsPage() {
 
             <div className="space-y-2">
               <div className="flex justify-between">
-                <Label htmlFor="sessionsBeforeLongBreak">Sessions Before Long Break</Label>
-                <span>{formValues.sessionsBeforeLongBreak}</span>
+                <Label htmlFor="sessionsBeforeLongBreak">{t('settings.sessionsBeforeLongBreak')}</Label>
+                <span>{formValues.sessionsBeforeLongBreak} {t('settings.sessions')}</span>
               </div>
               <Slider
                 id="sessionsBeforeLongBreak"
@@ -181,7 +184,7 @@ export default function SettingsPage() {
             </div>
 
             <div className="flex items-center justify-between">
-              <Label htmlFor="autoStartBreaks">Auto-start Breaks</Label>
+              <Label htmlFor="autoStartBreaks">{t('settings.autoStartBreaks')}</Label>
               <Switch
                 id="autoStartBreaks"
                 checked={formValues.autoStartBreaks}
@@ -190,7 +193,7 @@ export default function SettingsPage() {
             </div>
 
             <div className="flex items-center justify-between">
-              <Label htmlFor="autoStartPomodoros">Auto-start Pomodoros</Label>
+              <Label htmlFor="autoStartPomodoros">{t('settings.autoStartPomodoros')}</Label>
               <Switch
                 id="autoStartPomodoros"
                 checked={formValues.autoStartPomodoros}
@@ -202,19 +205,35 @@ export default function SettingsPage() {
 
         <Card>
           <CardHeader>
-            <CardTitle>Appearance</CardTitle>
+            <CardTitle>{t('settings.title')}</CardTitle>
             <CardDescription>
-              Customize the look and feel of the application
+              {t('app.title')}
             </CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="space-y-4">
             <div className="flex items-center justify-between">
-              <Label htmlFor="darkMode">Dark Mode</Label>
+              <Label htmlFor="darkMode">{t('settings.darkMode')}</Label>
               <Switch
                 id="darkMode"
                 checked={formValues.darkMode}
                 onCheckedChange={(checked) => handleInputChange("darkMode", checked)}
               />
+            </div>
+            
+            <div className="flex flex-col space-y-2">
+              <Label htmlFor="language">{t('settings.language')}</Label>
+              <Select 
+                value={language} 
+                onValueChange={(value) => setLanguage(value as 'zh' | 'en')}
+              >
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder={t('settings.language')} />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="zh">{t('language.zh')}</SelectItem>
+                  <SelectItem value="en">{t('language.en')}</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
           </CardContent>
         </Card>
@@ -224,7 +243,7 @@ export default function SettingsPage() {
           onClick={handleSaveSettings}
           disabled={saveSettingsMutation.isPending}
         >
-          Save Settings
+          {t('app.save')}
         </Button>
       </div>
     </>

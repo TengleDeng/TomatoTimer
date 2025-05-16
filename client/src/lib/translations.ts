@@ -2,8 +2,13 @@
 
 export type Language = 'zh' | 'en';
 
+// Translation keys type
+export interface TranslationKeys {
+  [key: string]: string;
+}
+
 // All translations for the app
-export const translations = {
+export const translations: Record<Language, TranslationKeys> = {
   zh: {
     // App title and common
     'app.title': '专注番茄钟',
