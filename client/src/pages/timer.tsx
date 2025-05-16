@@ -1,23 +1,13 @@
 import { useEffect } from "react";
-import { usePomodoro } from "@/hooks/use-pomodoro";
 import TimerCircle from "@/components/timer-circle";
 import TaskList from "@/components/task-list";
 import StatisticsCard from "@/components/statistics-card";
 import { useQuery } from "@tanstack/react-query";
 import { Settings, DailyStats } from "@shared/schema";
+import { useTimer } from "@/context/timer-context";
 
 export default function Timer() {
-  // Fetch user settings
-  const { data: settings } = useQuery<Settings>({
-    queryKey: ["/api/settings"],
-  });
-
-  // Fetch daily stats
-  const { data: stats } = useQuery<DailyStats>({
-    queryKey: ["/api/stats/daily"],
-  });
-
-  // Initialize pomodoro timer with settings
+  // Get timer context
   const { 
     timeLeft, 
     totalTime, 
@@ -27,14 +17,29 @@ export default function Timer() {
     status, 
     startTimer, 
     pauseTimer, 
-    resetTimer 
-  } = usePomodoro({
-    workDuration: settings?.workDuration || 25 * 60,
-    breakDuration: settings?.breakDuration || 5 * 60,
-    longBreakDuration: settings?.longBreakDuration || 15 * 60,
-    sessionsBeforeLongBreak: settings?.sessionsBeforeLongBreak || 4,
-    autoStartBreaks: settings?.autoStartBreaks || false,
-    autoStartPomodoros: settings?.autoStartPomodoros || false,
+    resetTimer,
+    updateSettings
+  } = useTimer();
+
+  // Fetch user settings
+  const { data: settings } = useQuery<Settings>({
+    queryKey: ["/api/settings"],
+    onSuccess: (data) => {
+      // Update timer with user settings
+      updateSettings({
+        workDuration: data.workDuration,
+        breakDuration: data.breakDuration,
+        longBreakDuration: data.longBreakDuration,
+        sessionsBeforeLongBreak: data.sessionsBeforeLongBreak,
+        autoStartBreaks: data.autoStartBreaks,
+        autoStartPomodoros: data.autoStartPomodoros
+      });
+    }
+  });
+
+  // Fetch daily stats
+  const { data: stats } = useQuery<DailyStats>({
+    queryKey: ["/api/stats/daily"],
   });
 
   return (

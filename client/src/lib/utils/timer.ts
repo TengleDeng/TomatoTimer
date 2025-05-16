@@ -42,17 +42,17 @@ export function playNotificationSound() {
 
 // Request browser notification permission
 export function requestNotificationPermission(): Promise<boolean> {
-  if (!('Notification' in window)) {
+  if (typeof window === 'undefined' || !('Notification' in window)) {
     console.log('This browser does not support notifications');
     return Promise.resolve(false);
   }
   
-  if (Notification.permission === 'granted') {
+  if (window.Notification.permission === 'granted') {
     return Promise.resolve(true);
   }
   
-  if (Notification.permission !== 'denied') {
-    return Notification.requestPermission().then(permission => {
+  if (window.Notification.permission !== 'denied') {
+    return window.Notification.requestPermission().then(permission => {
       return permission === 'granted';
     });
   }
@@ -62,13 +62,22 @@ export function requestNotificationPermission(): Promise<boolean> {
 
 // Send a browser notification
 export function sendNotification(title: string, options: NotificationOptions = {}) {
-  if (Notification.permission === 'granted') {
-    const notification = new Notification(title, {
-      icon: 'https://img.icons8.com/color/48/000000/tomato.png',
-      ...options
-    });
-    
-    return notification;
+  if (typeof window === 'undefined' || !('Notification' in window)) {
+    return null;
+  }
+  
+  if (window.Notification.permission === 'granted') {
+    try {
+      const notification = new window.Notification(title, {
+        icon: 'https://img.icons8.com/color/48/000000/tomato.png',
+        ...options
+      });
+      
+      return notification;
+    } catch (error) {
+      console.error('Failed to create notification:', error);
+      return null;
+    }
   }
   
   return null;

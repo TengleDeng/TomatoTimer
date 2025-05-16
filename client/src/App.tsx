@@ -10,6 +10,7 @@ import Stats from "@/pages/stats";
 import Settings from "@/pages/settings";
 import BottomNav from "@/components/bottom-nav";
 import { ThemeProvider } from "next-themes";
+import { TimerProvider } from "./context/timer-context";
 
 function Router() {
   return (
@@ -29,13 +30,15 @@ function App() {
   return (
     <ThemeProvider attribute="class">
       <QueryClientProvider client={queryClient}>
-        <TooltipProvider>
-          <Toaster />
-          <div className="flex flex-col min-h-screen max-w-lg mx-auto px-4 pb-20">
-            <Router />
-            <BottomNav />
-          </div>
-        </TooltipProvider>
+        <TimerProvider>
+          <TooltipProvider>
+            <Toaster />
+            <div className="flex flex-col min-h-screen max-w-lg mx-auto px-4 pb-20">
+              <Router />
+              <BottomNav />
+            </div>
+          </TooltipProvider>
+        </TimerProvider>
       </QueryClientProvider>
     </ThemeProvider>
   );
