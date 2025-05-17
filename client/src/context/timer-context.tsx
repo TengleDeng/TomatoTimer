@@ -112,26 +112,32 @@ export const TimerProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     autoStartPomodoros?: boolean;
   }) => {
     if (settings.workDuration !== undefined) {
-      setWorkDuration(settings.workDuration);
+      // 从API获取的是秒，直接使用
+      const workDurationInSeconds = settings.workDuration;
+      setWorkDuration(workDurationInSeconds);
       if (isWorkSession && !isRunning) {
-        setTimeLeft(settings.workDuration);
-        setTotalTime(settings.workDuration);
+        setTimeLeft(workDurationInSeconds);
+        setTotalTime(workDurationInSeconds);
       }
     }
     
     if (settings.breakDuration !== undefined) {
-      setBreakDuration(settings.breakDuration);
+      // 从API获取的是秒，直接使用
+      const breakDurationInSeconds = settings.breakDuration;
+      setBreakDuration(breakDurationInSeconds);
       if (!isWorkSession && !isRunning && sessionCount % sessionsBeforeLongBreak !== 0) {
-        setTimeLeft(settings.breakDuration);
-        setTotalTime(settings.breakDuration);
+        setTimeLeft(breakDurationInSeconds);
+        setTotalTime(breakDurationInSeconds);
       }
     }
     
     if (settings.longBreakDuration !== undefined) {
-      setLongBreakDuration(settings.longBreakDuration);
+      // 从API获取的是秒，直接使用
+      const longBreakDurationInSeconds = settings.longBreakDuration;
+      setLongBreakDuration(longBreakDurationInSeconds);
       if (!isWorkSession && !isRunning && sessionCount % sessionsBeforeLongBreak === 0) {
-        setTimeLeft(settings.longBreakDuration);
-        setTotalTime(settings.longBreakDuration);
+        setTimeLeft(longBreakDurationInSeconds);
+        setTotalTime(longBreakDurationInSeconds);
       }
     }
     
