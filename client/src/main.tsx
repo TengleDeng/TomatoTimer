@@ -2,9 +2,6 @@ import { createRoot } from "react-dom/client";
 import App from "./App";
 import "./index.css";
 import { useEffect } from "react";
-import { LanguageProvider } from "./contexts/LanguageContext";
-import { QueryClientProvider } from "@tanstack/react-query";
-import { queryClient } from "./lib/queryClient";
 
 // Function to set the theme based on user preference or system setting
 function setInitialTheme() {
@@ -35,11 +32,5 @@ if ('serviceWorker' in navigator) {
 // Apply theme before rendering
 setInitialTheme();
 
-// Render the app with all providers
-createRoot(document.getElementById("root")!).render(
-  <QueryClientProvider client={queryClient}>
-    <LanguageProvider>
-      <App />
-    </LanguageProvider>
-  </QueryClientProvider>
-);
+// Render the app
+createRoot(document.getElementById("root")!).render(<App />);
