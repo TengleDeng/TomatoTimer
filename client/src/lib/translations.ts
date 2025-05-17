@@ -27,6 +27,7 @@ export const translations: Record<Language, TranslationKeys> = {
     'nav.settings': '设置',
     
     // Timer Page
+    'timer.title': '计时器设置',
     'timer.start': '开始',
     'timer.pause': '暂停',
     'timer.reset': '重置',
@@ -106,6 +107,7 @@ export const translations: Record<Language, TranslationKeys> = {
     'nav.settings': 'Settings',
     
     // Timer Page
+    'timer.title': 'Timer Settings',
     'timer.start': 'Start',
     'timer.pause': 'Pause',
     'timer.reset': 'Reset',

@@ -117,7 +117,7 @@ export default function SettingsPage() {
       <div className="grid gap-4 mb-8">
         <Card>
           <CardHeader>
-            <CardTitle>{t('settings.title')}</CardTitle>
+            <CardTitle>{t('timer.title')}</CardTitle>
             <CardDescription>
               {t('settings.workDuration')}
             </CardDescription>
@@ -205,9 +205,9 @@ export default function SettingsPage() {
 
         <Card>
           <CardHeader>
-            <CardTitle>{t('settings.title')}</CardTitle>
+            <CardTitle>{t('app.title')}</CardTitle>
             <CardDescription>
-              {t('app.title')}
+              {t('settings.language')}
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -226,7 +226,7 @@ export default function SettingsPage() {
                 value={language} 
                 onValueChange={(value) => setLanguage(value as 'zh' | 'en')}
               >
-                <SelectTrigger className="w-full">
+                <SelectTrigger id="language" className="w-full">
                   <SelectValue placeholder={t('settings.language')} />
                 </SelectTrigger>
                 <SelectContent>
